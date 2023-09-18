@@ -30,6 +30,6 @@ fun extractApplePublicKey(certificateFilePath: String): ByteArray {
 
 //fun main() {
 //    // Specify the path to the certificate file
-//    val certificateFilePath = "Certificate.crt"
+//    val certificateFilePath = "src/main/resources/Certificate.crt"
 //    val extractedApplePublicKey = extractApplePublicKey(certificateFilePath)
 //}
