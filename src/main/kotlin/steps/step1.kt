@@ -1,12 +1,13 @@
 package steps
 
 import java.io.FileInputStream
+import java.security.PublicKey
 import java.security.cert.CertificateFactory
 import java.security.cert.X509Certificate
 
-fun extractApplePublicKey(certificateFilePath: String): ByteArray {
+fun extractApplePublicKey(leafCertificateFilePath: String): PublicKey {
     // Load the certificate file
-    val fileInputStream = FileInputStream(certificateFilePath)
+    val fileInputStream = FileInputStream(leafCertificateFilePath)
 
     // Create a CertificateFactory instance for X.509 certificates
     val certificateFactory = CertificateFactory.getInstance("X.509")
@@ -18,18 +19,11 @@ fun extractApplePublicKey(certificateFilePath: String): ByteArray {
     fileInputStream.close()
 
     // Retrieve the public key from the certificate
-    val publicKey = certificate.publicKey
-    val encodedPublicKey = publicKey.encoded
-
-    // Extract the uncompressed format (65 bytes)
-    val uncompressedPublicKey = ByteArray(65)
-    System.arraycopy(encodedPublicKey, encodedPublicKey.size - 65, uncompressedPublicKey, 0, 65)
-
-    return encodedPublicKey
+    return certificate.publicKey
 }
 
 //fun main() {
-//    // Specify the path to the certificate file
-//    val certificateFilePath = "src/main/resources/Certificate.crt"
-//    val extractedApplePublicKey = extractApplePublicKey(certificateFilePath)
+//    // Specify the path to the leaf certificate file
+//    val leafCertificateFilePath = "src/main/resources/Certificate.crt"
+//    val extractedApplePublicKey = extractApplePublicKey(leafCertificateFilePath)
 //}

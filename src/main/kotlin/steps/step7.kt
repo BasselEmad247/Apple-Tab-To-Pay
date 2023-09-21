@@ -1,28 +1,26 @@
 package steps
 
-import org.json.JSONObject
-import java.util.Base64
+import java.util.*
 
-fun encodeAndSendData(activationData: ByteArray, publicKey: ByteArray, encryptedData: ByteArray): String {
+class EncryptTabToPayDataResponse(
+    val activationData: String, // Base64
+    val encryptedPassData: String, // Base64 - This will include ( primaryAccountNumber - expiration - name - nonce - nonceSignature )
+    val ephemeralPublicKey: String // Base64
+)
+
+fun encodeAndSendData(activationData: ByteArray, publicKey: ByteArray, encryptedData: ByteArray): EncryptTabToPayDataResponse {
     // Encode data as Base64 strings
     val activationDataString = Base64.getEncoder().encodeToString(activationData)
     val publicKeyString = Base64.getEncoder().encodeToString(publicKey)
     val encryptedDataString = Base64.getEncoder().encodeToString(encryptedData)
 
-    // Create JSON object
-    val json = JSONObject()
-    json.put("activationData", activationDataString)
-    json.put("publicKey", publicKeyString)
-    json.put("encryptedData", encryptedDataString)
-
-    // Return the JSON response
-    return json.toString()
+    return EncryptTabToPayDataResponse(publicKeyString, encryptedDataString, activationDataString)
 }
 
 //fun main() {
 //    val activationData = "5572b844-e46a-4100-b6a4-a6d4c3cd265d".toByteArray()
 //
 //    // Encode and send data
-//    val jsonResponse = encodeAndSendData(activationData, keyPairs.ephPublicKey, encryptedDataWithMac)
+//    val jsonResponse = encodeAndSendData(activationData, keyPairs.ephemeralPubKey, encryptedDataWithMac)
 //    println(jsonResponse)
 //}

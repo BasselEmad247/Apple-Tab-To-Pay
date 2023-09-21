@@ -1,17 +1,16 @@
 package steps
 
 import java.security.KeyPairGenerator
-import java.security.PrivateKey
 import java.security.PublicKey
 import java.security.spec.ECGenParameterSpec
 
-class Keys(publicKey: PublicKey, privateKey: PrivateKey, ephemeralPublicKey: ByteArray) {
-    val pubKey: PublicKey = publicKey
-    val priKey: PrivateKey = privateKey
-    val ephPublicKey: ByteArray = ephemeralPublicKey
+class Keys(applePublicKey: PublicKey, ephemeralPublicKey: ByteArray, ephemeralPrivateKey: ByteArray) {
+    val applePubKey: PublicKey = applePublicKey
+    val ephemeralPubKey: ByteArray = ephemeralPublicKey
+    val ephemeralPriKey: ByteArray = ephemeralPrivateKey
 }
 
-fun generateEphemeralKeyPairs(encodedPublicKey: ByteArray): Keys {
+fun generateEphemeralKeyPairs(applePublicKey: PublicKey): Keys {
     // Ephemeral Key Pairs
     val keyPairGenerator = KeyPairGenerator.getInstance("EC")
     val ecGenParameterSpec = ECGenParameterSpec("secp256r1") // NIST P-256.
@@ -20,19 +19,16 @@ fun generateEphemeralKeyPairs(encodedPublicKey: ByteArray): Keys {
     val keyPair = keyPairGenerator.genKeyPair()
 
     val publicKey = keyPair.public
+    val publicKeyBytes = publicKey.encoded
     val ephemeralPublicKey = ByteArray(65)
-    System.arraycopy(keyPair.public.encoded, encodedPublicKey.size - 65, ephemeralPublicKey, 0, 65)
+    System.arraycopy(publicKeyBytes, publicKeyBytes.size - 65, ephemeralPublicKey, 0, 65)
 
     val privateKey = keyPair.private
     val privateKeyBytes = privateKey.encoded
+    val ephemeralPrivateKey = ByteArray(32)
+    System.arraycopy(privateKeyBytes, privateKeyBytes.size - 32, ephemeralPrivateKey, 0, 32)
 
-    // Trim leading zeros if any
-    if (privateKeyBytes.size > 32) {
-        val trimmedPrivateKeyBytes = ByteArray(32)
-        System.arraycopy(privateKeyBytes, privateKeyBytes.size - 32, trimmedPrivateKeyBytes, 0, 32)
-    }
-
-    return Keys(publicKey, privateKey, ephemeralPublicKey)
+    return Keys(applePublicKey, ephemeralPublicKey, ephemeralPrivateKey)
 }
 
 //fun main() {

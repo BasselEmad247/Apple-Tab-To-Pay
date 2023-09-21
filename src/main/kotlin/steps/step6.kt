@@ -35,7 +35,13 @@ fun encryptAesGcmWithMac(key: ByteArray, plaintext: ByteArray): ByteArray {
 //    val key = Hex.decode(aesKeyHex)
 //
 //    // JSON payload (67 bytes), UTF-8 encoded
-//    val jsonPayload = "{\"Parameter1\":\"Value1\",\"Parameter2\":\"Value2\",\"Parameter3\":\"Value3\"}"
+//    val jsonPayload =
+//                "{\"primaryAccountNumber\":${"cardNumber"}," +
+//                "\"expiration\":${"expiryDate"}," +
+//                "\"name\":${"name"}," +
+//                "\"nonce\":${"nonce"}," +
+//                "\"nonceSignature\":${"nonceSignature"}}"
+//
 //    val plaintext = jsonPayload.toByteArray(Charsets.UTF_8)
 //
 //    val encryptedDataWithMac = encryptAesGcmWithMac(key, plaintext)

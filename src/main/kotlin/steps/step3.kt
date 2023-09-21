@@ -11,18 +11,9 @@ fun generateSharedSecret(applePublicKey: PublicKey, ephemeralPrivateKey: Private
 
     val secretKey = keyAgreement.generateSecret()
 
-    return bytesToHex(secretKey).uppercase()
-}
-
-// Helper method to convert bytes to hexadecimal string
-fun bytesToHex(bytes: ByteArray): String {
-    val stringBuilder = StringBuilder()
-    for (b in bytes) {
-        stringBuilder.append(String.format("%02x", b))
-    }
-    return stringBuilder.toString()
+    return byteArrayToHexString(secretKey).uppercase()
 }
 
 //fun main() {
-//    val sharedSecretHex = generateSharedSecret(keyPairs.pubKey, keyPairs.priKey)
+//    val sharedSecretHex = generateSharedSecret(keyPairs.applePubKey, byteArrayToPrivateKey(keyPairs.ephemeralPriKey))
 //}
