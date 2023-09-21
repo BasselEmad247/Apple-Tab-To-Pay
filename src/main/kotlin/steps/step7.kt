@@ -22,5 +22,7 @@ fun encodeAndSendData(activationData: ByteArray, publicKey: ByteArray, encrypted
 //
 //    // Encode and send data
 //    val jsonResponse = encodeAndSendData(activationData, keyPairs.ephemeralPubKey, encryptedDataWithMac)
-//    println(jsonResponse)
+//    println("Activation Data: ${jsonResponse.activationData}")
+//    println("Encrypted Pass Data: ${jsonResponse.encryptedPassData}")
+//    println("Ephemeral Public Key: ${jsonResponse.ephemeralPublicKey}")
 //}
