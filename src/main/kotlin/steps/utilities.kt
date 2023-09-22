@@ -29,7 +29,7 @@ fun hexStringToByteArray(hexString: String): ByteArray {
 }
 
 fun byteArrayToPrivateKey(byteArray: ByteArray): PrivateKey {
-    val keyFactory = KeyFactory.getInstance("RSA")
+    val keyFactory = KeyFactory.getInstance("EC")
     val keySpec = PKCS8EncodedKeySpec(byteArray)
     return keyFactory.generatePrivate(keySpec)
 }

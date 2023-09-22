@@ -25,8 +25,15 @@ fun generateEphemeralKeyPairs(applePublicKey: PublicKey): Keys {
 
     val privateKey = keyPair.private
     val privateKeyBytes = privateKey.encoded
-    val ephemeralPrivateKey = ByteArray(32)
-    System.arraycopy(privateKeyBytes, privateKeyBytes.size - 32, ephemeralPrivateKey, 0, 32)
+    var ephemeralPrivateKey = ByteArray(32)
+
+    if (privateKeyBytes.size >= 32) {
+        privateKeyBytes.sliceArray(0 until 32)
+        ephemeralPrivateKey = privateKeyBytes.clone()
+    } else {
+        // If the private key is shorter than 32 bytes, pad it with zeros
+        System.arraycopy(privateKeyBytes, 0, ephemeralPrivateKey, 0, privateKeyBytes.size)
+    }
 
     return Keys(applePublicKey, ephemeralPublicKey, ephemeralPrivateKey)
 }
