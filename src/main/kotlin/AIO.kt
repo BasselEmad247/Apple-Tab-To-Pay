@@ -15,7 +15,7 @@ import javax.crypto.KeyAgreement
 import javax.crypto.SecretKey
 import javax.crypto.spec.SecretKeySpec
 
-class EncryptTabToPayDataResponse(
+class EncryptTapToPayDataResponse(
     val activationData: String, // Base64
     val encryptedPassData: String, // Base64 - This will include ( primaryAccountNumber - expiration - name - nonce - nonceSignature )
     val ephemeralPublicKey: String // Base64
@@ -128,13 +128,13 @@ fun encryptAesGcmWithMac(key: ByteArray, plaintext: ByteArray): ByteArray {
     return encryptedDataWithMac
 }
 
-fun encodeAndSendData(activationData: ByteArray, publicKey: ByteArray, encryptedData: ByteArray): EncryptTabToPayDataResponse {
+fun encodeAndSendData(activationData: ByteArray, publicKey: ByteArray, encryptedData: ByteArray): EncryptTapToPayDataResponse {
     // Encode data as Base64 strings
     val activationDataString = Base64.getEncoder().encodeToString(activationData)
     val publicKeyString = Base64.getEncoder().encodeToString(publicKey)
     val encryptedDataString = Base64.getEncoder().encodeToString(encryptedData)
 
-    return EncryptTabToPayDataResponse(publicKeyString, encryptedDataString, activationDataString)
+    return EncryptTapToPayDataResponse(publicKeyString, encryptedDataString, activationDataString)
 }
 
 // Helper method to convert bytes to hexadecimal string
