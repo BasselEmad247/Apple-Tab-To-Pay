@@ -19,8 +19,7 @@ fun nistKdf(sharedSecret: ByteArray, ephemeralPublicKey: ByteArray): ByteArray {
 
 //fun main() {
 //    val sharedSecret = hexStringToByteArray(sharedSecretHex)
-//    val ephemeralPublicKey = hexStringToByteArray(byteArrayToHexString(keyPairs.ephemeralPubKey))
 //
-//    val kdfInput = nistKdf(sharedSecret, ephemeralPublicKey)
+//    val kdfInput = nistKdf(sharedSecret, keyPairs.ephemeralPubKey)
 //    val kdfInputHex = byteArrayToHexString(kdfInput)
 //}

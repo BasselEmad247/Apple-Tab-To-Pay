@@ -174,30 +174,28 @@ fun byteArrayToPrivateKey(byteArray: ByteArray): PrivateKey {
 fun main() {
     // Specify the path to the leaf certificate file
     val leafCertificateFilePath = "src/main/resources/Certificate.crt"
+
+    //TODO Check the validity of the leaf certificate with the root certificate
+
+    // Step 1
     val extractedApplePublicKey = extractApplePublicKey(leafCertificateFilePath)
 
-    //------------------------------------------------------------------------------------------------------------------
-
+    // Step 2
     val keyPairs = generateEphemeralKeyPairs(extractedApplePublicKey)
 
-    //------------------------------------------------------------------------------------------------------------------
-
+    // Step 3
     val sharedSecretHex = generateSharedSecret(keyPairs.applePubKey, byteArrayToPrivateKey(keyPairs.ephemeralPriKey))
 
-    //------------------------------------------------------------------------------------------------------------------
-
+    // Step 4
     val sharedSecret = hexStringToByteArray(sharedSecretHex)
-    val ephemeralPublicKey = hexStringToByteArray(byteArrayToHexString(keyPairs.ephemeralPubKey))
 
-    val kdfInput = nistKdf(sharedSecret, ephemeralPublicKey)
+    val kdfInput = nistKdf(sharedSecret, keyPairs.ephemeralPubKey)
     val kdfInputHex = byteArrayToHexString(kdfInput)
 
-    //------------------------------------------------------------------------------------------------------------------
-
+    // Step 5
     val aesKeyHex = byteArrayToHexString(generateSharedAesKey(kdfInputHex).encoded)
 
-    //------------------------------------------------------------------------------------------------------------------
-
+    // Step 6
     val key = Hex.decode(aesKeyHex)
 
     // JSON payload (67 bytes), UTF-8 encoded
@@ -212,8 +210,8 @@ fun main() {
 
     val encryptedDataWithMac = encryptAesGcmWithMac(key, plaintext)
 
-    //------------------------------------------------------------------------------------------------------------------
-
+    // Step 7
+    //TODO activationData confirmation with CMS team
     val activationData = "5572b844-e46a-4100-b6a4-a6d4c3cd265d".toByteArray()
 
     // Encode and send data
