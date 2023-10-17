@@ -131,10 +131,14 @@ fun encryptAesGcmWithMac(key: ByteArray, plaintext: ByteArray): ByteArray {
 fun encodeAndSendData(activationData: ByteArray, publicKey: ByteArray, encryptedData: ByteArray): EncryptTapToPayDataResponse {
     // Encode data as Base64 strings
     val activationDataString = Base64.getEncoder().encodeToString(activationData)
-    val publicKeyString = Base64.getEncoder().encodeToString(publicKey)
     val encryptedDataString = Base64.getEncoder().encodeToString(encryptedData)
+    val publicKeyString = Base64.getEncoder().encodeToString(publicKey)
 
-    return EncryptTapToPayDataResponse(publicKeyString, encryptedDataString, activationDataString)
+    return EncryptTapToPayDataResponse(
+        activationData = activationDataString,
+        encryptedPassData = encryptedDataString,
+        ephemeralPublicKey = publicKeyString
+    )
 }
 
 // Helper method to convert bytes to hexadecimal string
